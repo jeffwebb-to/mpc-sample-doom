@@ -1,38 +1,60 @@
-# DOOM for MPC Sample
+<div align="center">
 
-DOOM running on the Akai MPC Sample (AC50) from an SD card. The card's autorun script stops
-the sampler application, runs a statically linked DOOM binary from RAM and starts the sampler
-again when DOOM exits. The package does not write to the device's internal storage. Removing
-the card and power cycling returns the device to its normal state.
+<img src="docs/logo.svg" alt="MPC DOOM" width="560">
 
-<p>
-<img src="docs/screenshots/00-splash.png" width="320" alt="Boot splash">
-<img src="docs/screenshots/01-menu.png" width="320" alt="Title menu">
-<img src="docs/screenshots/02-e1m1.png" width="320" alt="E1M1">
-</p>
+**DOOM on the Akai MPC Sample, from an SD card. Nothing is written to the device.**
 
-Tested on firmware 1.3.0.12. Other firmware versions are untested. The game is playable with
-the pads, buttons and DATA knob, and quitting returns to the sampler. Sound effects are
-implemented and work in the emulator but have not been confirmed on hardware. There is no
-music.
+[![Release](https://img.shields.io/github/v/release/jeffwebb-to/mpc-sample-doom?label=release&color=d41c1c)](https://github.com/jeffwebb-to/mpc-sample-doom/releases/latest)
+![License: GPL-2.0](https://img.shields.io/badge/license-GPL--2.0-blue)
+![Platform: Akai MPC Sample](https://img.shields.io/badge/platform-Akai%20MPC%20Sample-555)
+![Firmware: 1.3.0.12](https://img.shields.io/badge/tested%20on-firmware%201.3.0.12-555)
+
+<table>
+<tr>
+<td align="center"><img src="docs/screenshots/00-splash.png" width="320" alt="Boot splash on the MPC Sample panel"><br><sub>Boot splash, drawn while the WAD loads</sub></td>
+<td align="center"><img src="docs/screenshots/02-e1m1.png" width="320" alt="E1M1 on the MPC Sample panel"><br><sub>E1M1 on the 320x240 panel</sub></td>
+</tr>
+</table>
+
+</div>
+
+The card's autorun script stops the sampler application, runs a statically linked DOOM
+binary from RAM and starts the sampler again when DOOM exits. The pads move and shoot, the
+DATA knob turns, the pad LEDs show a health bar. Remove the card and power cycle and the
+device is exactly as it was.
+
+Tested on firmware 1.3.0.12. Sound effects are implemented and work in the emulator but are
+not yet confirmed on hardware. There is no music.
+
+## Contents
+
+- [Quick start](#quick-start)
+- [Risk and data protection](#risk-and-data-protection)
+- [Controls](#controls)
+- [Installing](#installing)
+- [Troubleshooting](#troubleshooting)
+- [Building from source](#building-from-source)
+- [How it works](#how-it-works)
+- [Developing with the emulator](#developing-with-the-emulator)
+- [Design rules](#design-rules)
+- [Credits](#credits)
+- [Licence](#licence)
 
 ## Quick start
 
-1. Read the next section and do the backups it describes.
+1. Read [Risk and data protection](#risk-and-data-protection) and do the backups it describes.
 2. Download `doom-autorun.zip` from the
    [latest release](https://github.com/jeffwebb-to/mpc-sample-doom/releases/latest) and unzip it.
-3. Copy the `autorun` folder and the `doom` folder to the root of an SD card. A fresh card is
-   best.
+3. Copy the `autorun` folder and the `doom` folder to the root of an SD card. A fresh card
+   is best.
 4. Save the project that is open on the MPC Sample, then insert the card. DOOM starts a few
    seconds after the sampler has booted.
 5. Hold SHIFT and press STOP to quit. The sampler comes back. Remove the card for a normal
    boot.
 
-The zip is built by `build.sh` from this repository and contains the binary, the autorun
+The zip is built by `build.sh` from this repository. It contains the binary, the autorun
 script, Freedoom and a plain-text copy of these instructions. Nothing needs to be compiled or
 installed on a computer.
-
-**Before you do anything else, read the next section.**
 
 ## Risk and data protection
 
@@ -79,14 +101,21 @@ the `pad_key` and `button_key` tables. PLUS, MINUS and the weapon keys use priva
 
 ## Installing
 
-Do the backups in the section above first.
+Do the backups in [Risk and data protection](#risk-and-data-protection) first.
 
-1. Get `doom-autorun.zip`, either from a release or by building it (see Building), and
-   unzip it.
+1. Get `doom-autorun.zip` from the [latest release](https://github.com/jeffwebb-to/mpc-sample-doom/releases/latest),
+   or build it (see [Building from source](#building-from-source)), and unzip it.
 2. Copy the `autorun` folder and the `doom` folder to the root of the SD card, so the card
-   contains `autorun/autorun.json`, `autorun/doom.sh`, `autorun/autorun.check`,
-   `autorun/doom` and `doom/freedoom1.wad`. The script never writes to the card and never
-   reads anything outside those two folders.
+   contains:
+
+       autorun/autorun.json
+       autorun/doom.sh
+       autorun/autorun.check
+       autorun/doom
+       doom/freedoom1.wad
+       doom/FREEDOOM-COPYING.txt
+
+   The script never writes to the card and never reads anything outside those two folders.
 3. Optional. If you own DOOM, put your `doom.wad` or `doom2.wad` in the card's `doom` folder.
    The script uses the first of `doom.wad`, `doom2.wad`, `doom1.wad`, `freedoom1.wad` and
    `freedoom2.wad` that it finds. Upper-case names such as `DOOM.WAD` are accepted for the
@@ -97,79 +126,68 @@ Do the backups in the section above first.
 6. Quit with SHIFT then STOP, or from the game's menu. The sampler application restarts and
    reloads its project.
 
-### If something does not go as expected
+## Troubleshooting
 
-- **Nothing happens after inserting the card.** Check that `autorun` and `doom` are at the
-  root of the card and not inside another folder, and that all four files are in `autorun`.
-  The device only runs the script if `autorun.check` matches the other two files, so do not
-  edit `autorun.json` or `doom.sh` without rebuilding (`build.sh` regenerates the check file).
-- **The screen goes black and DOOM does not appear.** Wait ten seconds. If the sampler does
-  not come back on its own, remove the card and power cycle. The device boots normally
-  without the card.
-- **DOOM freezes.** Remove the card and power cycle. The sampler application was already
-  stopped cleanly before DOOM started, so this is no worse than a normal power-off.
-- **The sampler does not come back after quitting.** Power cycle with the card out.
-- **Sound is loud.** DOOM plays at whatever output level the sampler left. Turn the volume
-  down before starting, in particular with headphones.
-- **No sound.** The speaker is switched on automatically if it was off and no headphones are
-  plugged in. Headphones take priority. If there is still no sound, it is not confirmed to
-  work on hardware yet; see the status at the top.
-- **Saved games are gone.** They are kept in RAM and are lost at power-off. This is by
-  design; the program never writes to the card or the device.
-- **A different firmware version.** Untested. The script checks that it is running as root
-  and that `/run` is a RAM filesystem before it stops the sampler, and it restarts the
-  sampler if DOOM fails to start, but a different version could behave differently in ways
-  not covered here.
+| Symptom | What to do |
+|---|---|
+| Nothing happens after inserting the card | Check that `autorun` and `doom` are at the root of the card, not inside another folder, and that all four files are in `autorun`. The device only runs the script if `autorun.check` matches the other two files, so do not edit `autorun.json` or `doom.sh` without rebuilding; `build.sh` regenerates the check file. |
+| Black screen, DOOM does not appear | Wait ten seconds. If the sampler does not come back on its own, remove the card and power cycle. The device boots normally without the card. |
+| DOOM freezes | Remove the card and power cycle. The sampler was stopped cleanly before DOOM started, so this is no worse than a normal power-off. |
+| The sampler does not come back after quitting | Power cycle with the card out. |
+| Sound is loud | DOOM plays at whatever output level the sampler left. Turn the volume down before starting, in particular with headphones. |
+| No sound | The speaker is switched on automatically if it was off and no headphones are plugged in; headphones take priority. Sound is not yet confirmed on hardware (see the status at the top). |
+| Saved games are gone | They are kept in RAM and lost at power-off. The program never writes to the card or the device. |
+| A different firmware version | Untested. The script checks that it is root and that `/run` is a RAM filesystem before it stops the sampler, and restarts the sampler if DOOM fails to start, but another version could differ in ways not covered here. |
 
-## Repository layout
-
-    autorun/        autorun.json and doom.sh, the SD card script. autorun.check is generated by build.sh
-    src/            doomgeneric_mpc.c  screen, pads, buttons, knob, LEDs, timing, splash
-                    i_mpcsound.c      sound effects: DMX lumps, a mixer, raw ALSA PCM; music stub
-                    drm_uapi.h        DRM structs and ioctl numbers declared by hand (the cross
-                                      compiler image has no DRM headers)
-                    SDL_mixer.h       empty header so the engine's i_sound.c compiles with FEATURE_SOUND
-                    splash.h          the boot splash text as a 1-bit bitmap, generated by tools/mksplash.py
-    tools/          mksplash.py, renders the splash text (needs Pillow)
-    doomgeneric/    copy of https://github.com/ozkl/doomgeneric (GPL-2.0), unmodified
-    wads/           Freedoom, downloaded by build.sh (not committed)
-    docs/           screenshots
-    build.sh        cross-compiles the binary and packages dist/doom-autorun.zip
-    lab-run.sh      copies a build into the emulator and runs it
-    READ ME.txt     instructions for players, included in the zip
-
-## Building
+## Building from source
 
 Requirements:
 
 - Docker, with the `mpclab-tools` image from
   [virtual-mpc-sample](https://github.com/orrpunk-art/virtual-mpc-sample). Running
   `python3 lab.py build` in that repository creates it. It is a Debian image with
-  `aarch64-linux-gnu-gcc`. Any aarch64 glibc cross compiler will do if you edit the
+  `aarch64-linux-gnu-gcc`. Any aarch64 glibc cross compiler works if you edit the
   `docker run` line in `build.sh`.
 - `curl`, `unzip`, `zip` and `python3` on the host.
 
-Then:
-
-    ./build.sh
+```sh
+./build.sh
+```
 
 This writes `build/doom` (static aarch64, about 1.4 MB), downloads Freedoom 0.13.0 into
-`wads/` if it is not there, and assembles `dist/doom-autorun.zip`. The zip contains
-`autorun/` with the JSON, the script, the check file and the binary, `doom/freedoom1.wad`
-with its licence file, and `READ ME.txt`.
+`wads/` if it is not already there, and assembles `dist/doom-autorun.zip`.
 
 The engine is compiled unmodified. `build.sh` takes every `.c` file in
 `doomgeneric/doomgeneric/` except the other platform back ends and the SDL and Allegro sound
 modules, and builds them with `-DDOOMGENERIC_RESX=320 -DDOOMGENERIC_RESY=200`, so the frame
-is the game's native 320x200, letterboxed on the 320x240 panel, and with `-DFEATURE_SOUND`,
-which makes the engine's `i_sound.c` use the sound and music modules from `i_mpcsound.c`.
-The empty `src/SDL_mixer.h` and the variables `use_libsamplerate` and `libsamplerate_scale`
+is the game's native 320x200 letterboxed on the 320x240 panel, and `-DFEATURE_SOUND`, which
+makes the engine's `i_sound.c` use the sound and music modules from `i_mpcsound.c`. The
+empty `src/SDL_mixer.h` and the variables `use_libsamplerate` and `libsamplerate_scale`
 defined in `i_mpcsound.c` are what `i_sound.c` needs to compile without SDL. The warnings
 printed during the build come from the engine.
 
 `autorun.check` is the SHA-256 of `autorun.json`, then `doom.sh`, then the salt
 `f7bed1c9-7e90-4731-9194-c996666b4331`, written as hex. The firmware refuses to run the
 script if it does not match.
+
+### Repository layout
+
+```
+autorun/        autorun.json and doom.sh, the SD card script. autorun.check is generated by build.sh
+src/            doomgeneric_mpc.c  screen, pads, buttons, knob, LEDs, timing, splash
+                i_mpcsound.c      sound effects: DMX lumps, a mixer, raw ALSA PCM; music stub
+                drm_uapi.h        DRM structs and ioctl numbers declared by hand (the cross
+                                  compiler image has no DRM headers)
+                SDL_mixer.h       empty header so the engine's i_sound.c compiles with FEATURE_SOUND
+                splash.h          the boot splash text as a 1-bit bitmap, generated by tools/mksplash.py
+tools/          mksplash.py renders the splash text (needs Pillow); mklogo.py writes docs/logo.svg
+doomgeneric/    copy of https://github.com/ozkl/doomgeneric (GPL-2.0), unmodified
+wads/           Freedoom, downloaded by build.sh (not committed)
+docs/           logo and screenshots
+build.sh        cross-compiles the binary and packages dist/doom-autorun.zip
+lab-run.sh      copies a build into the emulator and runs it
+READ ME.txt     instructions for players, included in the zip
+```
 
 ## How it works
 
@@ -245,16 +263,18 @@ modes rather than one, its loopback sound card accepts 4 channels only, there ar
 speaker or headphone switches, and panel flushes are instant, so frame rates in the emulator
 say nothing about the device.
 
-    (cd ../virtual-mpc-sample && python3 lab.py run)   # wait for "Multi-User System" in out/run/console.log
-    ./lab-run.sh                       # copy the binary and a WAD to /run/doom, stop ac50, run DOOM
-    ./lab-run.sh --log                 # DOOM's output; an fps line every 5 seconds
-    MPCDOOM_DEBUG=1 ./lab-run.sh       # also log every control-surface byte and key event
-    ./lab-run.sh --stop                # SIGTERM, a clean quit; the sampler comes back
-    python3 scripts/qmp.py screendump out.png                       # in virtual-mpc-sample: grab the DRM output
-    curl -X POST 127.0.0.1:8765/control -d '{"name":"PAD 3","action":"press","value":100}'   # then "release"
-    curl -X POST 127.0.0.1:8765/control -d '{"name":"DATA","action":"turn","value":2}'       # 126 means -2
-    python3 lab.py autorun dist/doom-autorun.zip --results           # test the card package; reboots the VM
-    python3 lab.py autorun dist/doom-autorun.zip --device-label      # card path with a space, as on the device
+```sh
+(cd ../virtual-mpc-sample && python3 lab.py run)   # wait for "Multi-User System" in out/run/console.log
+./lab-run.sh                       # copy the binary and a WAD to /run/doom, stop ac50, run DOOM
+./lab-run.sh --log                 # DOOM's output; an fps line every 5 seconds
+MPCDOOM_DEBUG=1 ./lab-run.sh       # also log every control-surface byte and key event
+./lab-run.sh --stop                # SIGTERM, a clean quit; the sampler comes back
+python3 scripts/qmp.py screendump out.png                       # in virtual-mpc-sample: grab the DRM output
+curl -X POST 127.0.0.1:8765/control -d '{"name":"PAD 3","action":"press","value":100}'   # then "release"
+curl -X POST 127.0.0.1:8765/control -d '{"name":"DATA","action":"turn","value":2}'       # 126 means -2
+python3 lab.py autorun dist/doom-autorun.zip --results           # test the card package; reboots the VM
+python3 lab.py autorun dist/doom-autorun.zip --device-label      # card path with a space, as on the device
+```
 
 Control names are in `virtual-mpc-sample/panel/controls.json`. `lab.py autorun` waits for
 the stock application to come back, so with this package it blocks until DOOM is quit inside
@@ -286,8 +306,8 @@ the guest.
 
 ## Licence
 
-GPL-2.0, see `LICENSE`. The engine is doomgeneric, which is GPL-2.0, and the code in `src/`,
-`autorun/`, `tools/` and the scripts is released under the same licence. Freedoom is BSD
-licensed; its `FREEDOOM-COPYING.txt` is in the zip. Do not commit commercial WADs. DOOM is a
-trademark of id Software. Akai and MPC are trademarks of inMusic Brands. This project is not
-affiliated with either company.
+GPL-2.0, see [`LICENSE`](LICENSE). The engine is doomgeneric, which is GPL-2.0, and the code
+in `src/`, `autorun/`, `tools/` and the scripts is released under the same licence. Freedoom
+is BSD licensed; its `FREEDOOM-COPYING.txt` is in the zip. Do not commit commercial WADs.
+DOOM is a trademark of id Software. Akai and MPC are trademarks of inMusic Brands. This
+project is not affiliated with either company.
