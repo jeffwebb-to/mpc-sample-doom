@@ -2,7 +2,7 @@
 
 <img src="docs/logo.svg" alt="MPC DOOM" width="560">
 
-**DOOM on the Akai MPC Sample, from an SD card. Nothing is written to the device.**
+**DOOM on the Akai MPC Sample, from an SD card.**
 
 [![Release](https://img.shields.io/github/v/release/jeffwebb-to/mpc-sample-doom?label=release&color=d41c1c)](https://github.com/jeffwebb-to/mpc-sample-doom/releases/latest)
 ![License: GPL-2.0](https://img.shields.io/badge/license-GPL--2.0-blue)
