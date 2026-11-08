@@ -16,6 +16,22 @@ the pads, buttons and DATA knob, and quitting returns to the sampler. Sound effe
 implemented and work in the emulator but have not been confirmed on hardware. There is no
 music.
 
+## Quick start
+
+1. Read the next section and do the backups it describes.
+2. Download `doom-autorun.zip` from the
+   [latest release](https://github.com/jeffwebb-to/mpc-sample-doom/releases/latest) and unzip it.
+3. Copy the `autorun` folder and the `doom` folder to the root of an SD card. A fresh card is
+   best.
+4. Save the project that is open on the MPC Sample, then insert the card. DOOM starts a few
+   seconds after the sampler has booted.
+5. Hold SHIFT and press STOP to quit. The sampler comes back. Remove the card for a normal
+   boot.
+
+The zip is built by `build.sh` from this repository and contains the binary, the autorun
+script, Freedoom and a plain-text copy of these instructions. Nothing needs to be compiled or
+installed on a computer.
+
 **Before you do anything else, read the next section.**
 
 ## Risk and data protection
