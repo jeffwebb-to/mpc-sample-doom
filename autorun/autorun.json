@@ -1,0 +1,14 @@
+{
+  "value0": {
+    "scripts": [
+      {
+        "path": "doom.sh",
+        "askQuestion": false,
+        "message": "Play DOOM?",
+        "yesButtonText": "Play",
+        "noButtonText": "Stock"
+      }
+    ],
+    "files": []
+  }
+}

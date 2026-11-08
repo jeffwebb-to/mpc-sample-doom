@@ -1,0 +1,82 @@
+DOOM for MPC Sample
+===================
+
+What this is
+------------
+DOOM, the 1993 game, running on your MPC Sample's screen and pads from an SD card. It uses
+the open-source doomgeneric engine. Nothing is installed on the device. The card starts DOOM
+in RAM, and the sampler comes back when you quit. Take the card out and power cycle and the
+MPC is exactly as it was. It comes with Freedoom, a free set of game data. If you own DOOM
+you can play the real levels with your own WAD file.
+
+Read this first
+---------------
+This is an unofficial hack. It is built so that it cannot change the device's firmware or
+internal storage, but you use it at your own risk. The real risk is losing data, and you
+can remove that risk before you start:
+
+1. SAVE THE PROJECT THAT IS OPEN ON THE MPC SAMPLE. Starting DOOM closes the sampler app
+   the same way powering off does. Do not rely on the app's temporary project to keep
+   unsaved edits.
+2. USE A FRESH SD CARD, OR BACK UP THE CARD FIRST. Copy the whole card to a computer
+   before you put the DOOM files on it. A spare card with only the DOOM files on it is
+   the simplest and safest option.
+3. BACK UP THE PROJECTS AND SAMPLES ON THE DEVICE. Export them or copy them over USB. Do
+   this before trying any modification.
+4. If your card already has an "autorun" folder from something else, keep a copy of it.
+   The DOOM "autorun" folder replaces it.
+
+Setup
+-----
+Do the backups above first.
+
+1. Unzip. Copy the "autorun" folder and the "doom" folder to the root of your SD card, next
+   to your own folders. The card should then contain autorun/autorun.json, autorun/doom.sh,
+   autorun/autorun.check, autorun/doom and doom/freedoom1.wad. Nothing else on the card is
+   read or written.
+2. Optional: put your own doom.wad or doom2.wad in the card's "doom" folder. It will be used
+   instead of Freedoom. DOOM.WAD and DOOM2.WAD in capitals work too.
+3. Save your project on the MPC Sample.
+4. Put the card in. DOOM starts a few seconds after the sampler has booted, every time the
+   device is powered on with the card in. Take the card out if you want a normal boot.
+
+Controls
+--------
+  PAD 1   strafe left        PAD 5   fire
+  PAD 2   walk back          PAD 6   use (doors, switches)
+  PAD 3   walk forward       PAD 7   run (hold)
+  PAD 4   strafe right       PAD 8   next weapon
+  PAD 1 is bottom left. Pads 9 to 16 show your health as a bar.
+
+  DATA knob      turn left or right (moves the cursor in menus)
+  DATA push      Enter
+  SHIFT          Esc (menu, back)
+  PLUS / MINUS   menu down / up
+  PLAY / STOP    Yes / No when the game asks
+  TAP TEMPO      automap on and off
+
+  Hold SHIFT and press STOP to quit DOOM and go back to the sampler. You can also pick
+  Quit Game in the menu and press PLAY for Yes.
+
+If something goes wrong
+-----------------------
+- Nothing happens: check that "autorun" and "doom" are at the root of the card, not inside
+  another folder, and that all four files are in "autorun". Do not edit the files in
+  "autorun"; the device refuses to run them if they are changed.
+- Black screen and no DOOM: wait ten seconds. If the sampler does not come back, take the
+  card out and power cycle. The device boots normally without the card.
+- DOOM freezes: take the card out and power cycle. The sampler was already shut down
+  cleanly before DOOM started, so this is no worse than a normal power-off.
+- The sampler does not come back after quitting: power cycle with the card out.
+- Loud: DOOM plays at whatever volume the sampler left. Turn it down before you start,
+  especially with headphones.
+
+Notes
+-----
+- Sound effects play through the speaker, or through headphones if they are plugged in.
+  Sound has been tested in the emulator but not yet confirmed on a real device. There is
+  no music.
+- Saved games and settings live in RAM and are gone at power-off.
+- Tested on firmware 1.3.0.12 only.
+- Freedoom is copyright the Freedoom project, BSD licence, see doom/FREEDOOM-COPYING.txt.
+  The engine is GPL-2.0: https://github.com/ozkl/doomgeneric

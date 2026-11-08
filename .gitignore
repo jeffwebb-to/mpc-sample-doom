@@ -1,0 +1,24 @@
+# Build outputs
+*.o
+*.a
+*.so
+dist/
+build/
+doom
+mpcdoom
+
+# Game data: never commit commercial WADs; Freedoom is fetched at build time
+*.wad
+wads/
+*.WAD
+
+# Never commit Akai firmware, update images, device dumps, or extracted binaries
+*.img
+*.rbin
+*.bin
+firmware/
+extracted/
+
+# OS / editor cruft
+.DS_Store
+*.swp
